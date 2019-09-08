@@ -1,11 +1,10 @@
 from flask import render_template,request,redirect,url_for
-from app import app
+from . import main
 from .request import get_news,get_new,search_news
-from .models import reviews
+from ..models import Review
 from .forms import ReviewForm
-Review = reviews.Review
 #views 
-@app.route('/')
+@main.route('/')
 def index():
 
     '''
