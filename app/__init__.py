@@ -2,11 +2,11 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from config import config_options
 
-bootstrap = Bootstrap(app)
+bootstrap = Bootstrap()
 
 def create_app(config_name):
 
-app = Flask(__name__)
+    app = Flask(__name__)
 
  # Creating the app configurations
     app.config.from_object(config_options[config_name])
@@ -20,7 +20,7 @@ app = Flask(__name__)
     app.register_blueprint(main_blueprint)
 
     # setting config
-    from .requests import configure_request
+    from .request import configure_request
     configure_request(app)
 
 
