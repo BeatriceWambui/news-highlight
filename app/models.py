@@ -31,17 +31,16 @@ class Review:
 
         return response
 
-class Review:
+class News:
+    '''
+    News class to define News Objects
+    '''
 
-    all_reviews = []
- # Some code is here
-    @classmethod
-    def get_reviews(cls,id):
+    def __init__(self,id,title,overview,poster,vote_average,vote_count):
+        self.id =id
+        self.title = title
+        self.overview = overview
+        self.poster = "https://image.tmdb.org/t/p/w500/" + poster
+        self.vote_average = vote_average
+        self.vote_count = vote_count
 
-        response = []
-
-        for review in cls.all_reviews:
-            if review.news_id == id:
-                response.append(review)
-
-        return response
