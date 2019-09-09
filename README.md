@@ -5,6 +5,7 @@ Beatrice Wambui
 Student Moringa School
 Kenyan citizen
 ## Live Page Deployment to Heroku
+https://my-news11.herokuapp.com/
 
 ## Setup Instruction
 * ctrl+alt+t (open terminal)
