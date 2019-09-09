@@ -1,6 +1,6 @@
 from flask import render_template,request,redirect,url_for
 from . import main
-from ..request import get_news,get_new,search_news
+from ..request import get_news,get_articles
 from ..models import Review
 from .forms import ReviewForm
 #views 
@@ -11,25 +11,21 @@ def index():
     View root page function that returns the index page and its data
     '''
     # Getting popular news
-    popular_news = get_news('popular')
-    upcoming_news = get_news('upcoming')
-    now_showing_movie = get_news('now_playing')
-    # message = 'This are the news highlights'
+    popular_news = get_news('sources')
+
     title = 'Home- Welcome to our News Highlight Website'
     search_news = request.args.get('news_query')
-    if search_news:
-        return redirect(url_for('search',news_name=search_news))
-    else:
-        return render_template('index.html', title = title, popular = popular_news, upcoming = upcoming_news, now_showing = now_showing_news)
 
-@main.route('/news/<int:news_id>')
-def news(news_id):
+    return render_template('index.html', title = title, popular = popular_news)
+
+@main.route('/news/<id>')
+def news(id):
     '''
     View news page function that returns the news highlights page and its data
     '''
-    news = get_new(id)
-    title = f'{news.title}'
-    return render_template('news.html', title = title, new = new)
+    news = get_articles(id)
+    title = 'You are viewing articles'
+    return render_template('news.html', title = title, news = news)
 @main.route('/search/<news_name>')
 def search(news_name):
     '''

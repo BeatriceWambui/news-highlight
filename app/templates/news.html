@@ -1,39 +1,27 @@
 {% extends 'base.html'%}
 {% import 'macros.html' as macro%}
 
-<div class="row">
-
-    <h1>Reviews</h1>
-    <hr>
-
-    {% if reviews %}
-        {{macro.displayReviews(reviews)}}
-
-    {% else%}
-        <h3 class="text-center">This type of news has no reviews </h3>
-
-        <a class="btn btn-success btn-lg text-center" href="/news/review/new/{{news.id}}"> Write a new review</a>
-    {% endif %}
-
-</div>
-<!-- Content block -->
 {% block content %}
-<div class="container">
+<h1 style="text-align: center; font-size : 80px ;color: green"> This are news Articles</h1>
+<hr>
 
-    <!-- Poster background -->
-    <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 posterPath" style="background: url({{news.poster}}) no-repeat center center">
-        </div>
-
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 movie-details">
-            <h3>{{ news.title }}</h3>
-
-            <p class="overview"> {{ news.overview }}</p>
-            <p class="ratings"> <b> {{ news.vote_average }}</b> - <i>{{ news.vote_count}} votes </i> </p>
-            <a class=ratings href="/news/review/new/{{news.id}}"> Write a new review</a>
-
-        </div>
+    <div class='container-fluid' style=" font-size : 30px">
+        {% for new in news %}
+        <div class="row">
+                <div class="col-md-4">
+                        <img src="{{new.image}}" alt=" ops! img not specified" height="300" width="300" style="border:2px solid black">
+                    </div>
+                    <hr>
+                    <div class="col-md-8">
+                        <p>{{new.author}}</p>
+                        <p>{{new.description}}</p>
+                        <a href="{{new.articlesSource}}" class="btn btn-success">Read Article</a>
+                        <p>{{new.timePublished}}</p>
+                </div>
+            
+            
+        </div><br>
+        {% endfor %}
     </div>
 
-</div>
 {% endblock %}

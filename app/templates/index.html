@@ -3,34 +3,49 @@
 
 {% block styles%}
     {{ super() }}
-    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='styles.css')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 {% endblock %}
 
         <!-- Content block -->
-        {% block content %}
-        <div class="container">
-            <form>
-                <input type="text" name="news_query" placeholder="Search for news" class="form-control">
-                <input type="submit"  value="Submit" class="btn btn-default">
-            </form>
-        
+{% block content %}
+ <h1  style="text-align: center; font-size : 80px" >MY NEWS HIGHLIGHT</h1>
+ <hr>
+ <div class="col-md-4">
+    <form class="search-form">
+        <input type="text" name="news_query" placeholder="Search for news" class="form-control">
+</div>
+        <input type="submit"  value="Submit" class="btn btn-success">
+    </form>
+ 
+
+
+    <div class="container-fluid " style="font-size:30px">
+        <div class="row">
+                <ol>
+                {%for news in popular%}
+                <div class="col-md-8">
+                    
+                        <li style="color:green; font-size:50px">{{ news.name }}</li> <br>
+                            {{news.description }} <br>
+                            {{news.category }} <br>
+                         <hr>
+                    
+                </div>
+                <div class="col-md-2">
+                    <a href="{{news.url}}" class="btn btn-success">Visit the news source</a>
+                </div>
+                <div class="col-md-2">
+                    <a href="/news/{{news.id}}" class="btn btn-success">View articles</a>
+                </div>
+                {% endfor %}
+                </ol>
+
         </div>
-        
-        <!-- Popular movie -->
-        <h3> Popular news</h3>
-        <ul>
-            {{ macro.displayNewsList(popular)}}
-        </ul>
-        <!-- Upcoming news -->
-        <h3> Upcoming News</h3>
-        <ul>
-            {{ macro.displayNewsList(upcoming)}}
-        </ul>
-        <!-- Now showing news-->
-        <h3> Now Showing </h3>
-        <ul>
-            {{ macro.displayNewsList(now_showing)}}
-        </ul>   
-        {% endblock %}
+            
+    </div>        
+
+{% endblock %}
 
 

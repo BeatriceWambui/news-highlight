@@ -1,5 +1,5 @@
 import urllib.request,json
-from .models import News
+from .models import News,Articles
 
 
 # Getting api key
@@ -24,8 +24,8 @@ def get_news(category):
 
         news_results = None
 
-        if get_news_response['results']:
-            news_results_list = get_news_response['results']
+        if get_news_response['sources']:
+            news_results_list = get_news_response['sources']
             news_results = process_results(news_results_list)
 
     return news_results
@@ -40,46 +40,48 @@ def process_results(news_list):
     news_results = []
     for news_item in news_list:
         id = news_item.get('id')
-        title = news_item.get('original_title')
-        overview = news_item.get('overview')
-        poster = news_item.get('poster_path')
-        vote_average = news_item.get('vote_average')
-        vote_count = news_item.get('vote_count')
+        name = news_item.get('name')
+        description = news_item.get('description')
+        url = news_item.get('url')
+        category = news_item.get('category')
 
-        if poster:
-            news_object = News(id,title,overview,poster,vote_average,vote_count)
-            news_result.append(news_object)
+        
+        news_object = News(id,name,description,url,category)
+        news_results.append(news_object)
     return news_results
-def get_new(id):
-    get_new_details_url = base_url.format(id,api_key)
+def get_articles(id):
+    get_new_details_url = 'https://newsapi.org/v2/everything?sources={}&apiKey={}'.format(id,api_key)
 
     with urllib.request.urlopen(get_new_details_url) as url:
         news_details_data = url.read()
         news_details_response = json.loads(news_details_data)
 
-        news_object = None
+        if news_details_response ['articles']:
+            news_details_response_data = news_details_response['articles']
+            news_articles = process_articles(news_details_response_data)
+
+    return news_articles
+        
+def process_articles(articles_list):        
+    
+    '''
+    Function that processes the articles results and transform them to list of Objects      
+    Args:
+        articles_list: A list of dictionaries that contain news details
+        Return:
+        articles_results: A list of news objects
+    '''
+    articles = []
+    for news_details_response in articles_list:
         if news_details_response:
             id = news_details_response.get('id')
-            title = news_details_response.get('original_title')
-            overview = news_details_response.get('overview')
-            poster = news_details_response.get('poster_path')
-            vote_average = news_details_response.get('vote_average')
-            vote_count = news_details_response.get('vote_count')
+            image = news_details_response.get('urlToImage')
+            description = news_details_response.get('description')
+            articlesSource = news_details_response.get('url')
+            timePublished = news_details_response.get('publishedAt')
+            author = news_details_response.get('author')
 
-            news_object = News(id,title,overview,poster,vote_average,vote_count)
+            news_object = Articles(id,image,description,articlesSource,timePublished,author)
+            articles.append(news_object)
 
-    return news_object
-def search_news(news_name):
-    search_news_url = 'https://api.thenewsdb.org/3/search/news?api_key={}&query={}'.format(api_key,news_name)
-    with urllib.request.urlopen(search_news_url) as url:
-        search_news_data = url.read()
-        search_news_response = json.loads(search_news_data)
-
-        search_news_results = None
-
-        if search_news_response['results']:
-            search_news_list = search_news_response['results']
-            search_news_results = process_results(search_news_list)
-
-
-    return search_movie_results
+    return articles
